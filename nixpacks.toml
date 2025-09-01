@@ -1,0 +1,8 @@
+[phases.build]
+cmds = [
+    "apt-get update", 
+    "apt-get install -y ffmpeg"
+]
+
+[start]
+cmd = "npm start"
