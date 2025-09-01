@@ -1,48 +1,35 @@
-# Start with Ubuntu
+# Use Ubuntu as base image (good FFmpeg support)
 FROM ubuntu:22.04
 
-# Install required build tools
+# Prevent interactive prompts during build
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install Node.js, npm, and FFmpeg
 RUN apt-get update && apt-get install -y \
-    autoconf \
-    automake \
-    build-essential \
-    cmake \
-    git \
-    libass-dev \
-    libfreetype6-dev \
-    libsdl2-dev \
-    libtool \
-    libva-dev \
-    libvdpau-dev \
-    libvorbis-dev \
-    libxcb1-dev \
-    libxcb-shm0-dev \
-    libxcb-xfixes0-dev \
-    meson \
-    ninja-build \
-    pkg-config \
-    texinfo \
-    wget \
-    yasm \
-    zlib1g-dev \
-    libx264-dev \
-    libx265-dev \
-    libnuma-dev \
+    curl \
+    ffmpeg \
+    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
-WORKDIR /ffmpeg
+# Verify installations
+RUN node --version && npm --version && ffmpeg -version
 
-# Copy FFmpeg source into container
+# Set working directory
+WORKDIR /app
+
+# Copy package files first (for better caching)
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy application code
 COPY . .
 
-# Configure and build FFmpeg
-RUN ./configure --enable-gpl --enable-libx264 --enable-libx265 && \
-    make -j$(nproc) && \
-    make install
+# Expose port (Railway will override this)
+EXPOSE 3000
 
-# Verify installation
-RUN ffmpeg -version
-
-# Set default command
-CMD ["ffmpeg", "-version"]
+# Start the application
+CMD ["npm", "start"]
