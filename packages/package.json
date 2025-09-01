@@ -1,10 +1,26 @@
 {
   "name": "ffmpeg-check",
   "version": "1.0.0",
+  "description": "Node.js app running with FFmpeg 8.0 (stable release branch, cut from master on 2025-08-09). Includes matching FFmpeg libraries.",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
     "express": "^4.18.2"
+  },
+  "ffmpeg": {
+    "version": "8.0",
+    "release_date": "2025-08-09",
+    "libraries": {
+      "libavutil": "58.x",
+      "libavcodec": "60.x",
+      "libavformat": "60.x",
+      "libavdevice": "60.x",
+      "libavfilter": "9.x",
+      "libswscale": "8.x",
+      "libswresample": "5.x",
+      "libpostproc": "57.x"
+    }
   }
 }
+
