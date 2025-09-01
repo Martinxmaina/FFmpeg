@@ -1,23 +1,18 @@
-# Use Node.js as base image
+# Base image
 FROM node:20
 
-# Install ffmpeg
-RUN apt-get update && apt-get install -y ffmpeg
+# Install ffmpeg (pinned to 8.x line)
+RUN apt-get update && apt-get install -y ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
+# App setup
 WORKDIR /app
-
-# Copy dependency files
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
-
-# Copy project files
 COPY . .
 
-# Expose port (Railway uses this to know what to run)
+# Expose app port
 EXPOSE 3000
 
-# Start your app
+# Start app
 CMD ["npm", "start"]
