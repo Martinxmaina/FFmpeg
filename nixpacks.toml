@@ -1,8 +1,5 @@
-[phases.build]
-cmds = [
-    "apt-get update", 
-    "apt-get install -y ffmpeg libavcodec-extra",
-    "ffmpeg -version"
-]
+[phases.setup]
+nixPkgs = ["nodejs_18", "ffmpeg"]
 
-[
+[start]
+cmd = "npm start"
