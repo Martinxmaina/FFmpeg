@@ -1,0 +1,12 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "package/Dockerfile"
+
+[deploy]
+startCommand = "npm start"
+healthcheckPath = "/health"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+
+# Tell Railway to use the package directory as the build context
+workingDirectory = "package"
