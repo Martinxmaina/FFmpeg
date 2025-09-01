@@ -1,8 +1,8 @@
 [phases.build]
 cmds = [
     "apt-get update", 
-    "apt-get install -y ffmpeg"
+    "apt-get install -y ffmpeg libavcodec-extra",
+    "ffmpeg -version"
 ]
 
-[start]
-cmd = "npm start"
+[
